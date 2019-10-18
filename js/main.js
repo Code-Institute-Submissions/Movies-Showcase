@@ -11,6 +11,10 @@ let TOTAL_PAGES = 0;
 const movieDisplay = document.getElementById("moviesDisplay");
 const previousButton = document.getElementById("previous");
 const nextButton = document.getElementById("next");
+const popular = document.getElementById("popular");
+const topRated = document.getElementById("topRated");
+const upcoming = document.getElementById("upcoming");
+
 
 // String building function which returns a valid url.
 let urlBuilder = (BASE_URL, filter, API_KEY, page) => `${BASE_URL}${filter}?api_key=${API_KEY}&page=${page}`;
@@ -39,18 +43,24 @@ async function getMovies(BASE_URL, filter, API_KEY, page) {
     });
 }
 
+// Display new list of movies.
+let changeMovies = () => {
+    // Clearing movie display section from previous page data.
+    movieDisplay.innerHTML = "";
+    // Fetching new data with updated page value.
+    getMovies(BASE_URL, filter, API_KEY, page);
+    // Scrolling to the top of the screen.
+    window.scrollTo(0, 0);
+}
+
 // Go to next page.
 nextButton.addEventListener("click", () => {
     // Check if we are not on last page.
     if (page != TOTAL_PAGES) {
         // Increase page value.
         page++;
-        // Clearing movie display section from previous page data.
-        movieDisplay.innerHTML = "";
-        // Fetching new data with updated page value.
-        getMovies(BASE_URL, filter, API_KEY, page);
-        // Scrolling to the top of the screen.
-        window.scrollTo(0,0);
+        // Display new list of movies.
+        changeMovies();
     }
 });
 
@@ -60,13 +70,39 @@ previousButton.addEventListener("click", () => {
     if (page != 1) {
         // Decreasing page value.
         page--;
-        // Clearing movie display section from previous page data.
-        movieDisplay.innerHTML = "";
-        // Fetching new data with updated page value.
-        getMovies(BASE_URL, filter, API_KEY, page);
-        // Scrolling to the top of the screen.
-        window.scrollTo(0,0);
+        // Change page.
+        changeMovies();
     }
+});
+
+// Sort movies by popular filter.
+popular.addEventListener("click", () => {
+    // Change filter to popular.
+    filter = "popular";
+    // Return to first page.
+    page = 1;
+    // Display new list of movies.
+    changeMovies();
+});
+
+// Sort movies by top rated filter.
+topRated.addEventListener("click", () => {
+    // Change filter to popular.
+    filter = "top_rated";
+    // Return to first page.
+    page = 1;
+    // Display new list of movies.
+    changeMovies();
+});
+
+// Sort movies by upcomming filter.
+upcoming.addEventListener("click", () => {
+    // Change filter to popular.
+    filter = "upcoming";
+    // Return to first page.
+    page = 1;
+    // Display new list of movies.
+    changeMovies();
 });
 
 // Loading data on window load.
