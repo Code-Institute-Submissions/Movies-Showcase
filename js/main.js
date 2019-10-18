@@ -3,18 +3,19 @@ const API_KEY = "75577ee1d6c6894588c8299ecbef6d44";
 const POSTER_BASE_URL = "https://image.tmdb.org/t/p/";
 const POSTER_SIZE = "w185/";
 
-let filter = "popular";
-let page = "1";
-
-let TOTAL_PAGES = 0;
-
 const movieDisplay = document.getElementById("moviesDisplay");
 const previousButton = document.getElementById("previous");
 const nextButton = document.getElementById("next");
+const sortButton = document.getElementById("sortButton");
 const popular = document.getElementById("popular");
 const topRated = document.getElementById("topRated");
 const upcoming = document.getElementById("upcoming");
+const header = document.getElementById("header");
 
+let filter = "popular";
+let page = "1";
+let totalPages = 0;
+let isSortingVisible = false;
 
 // String building function which returns a valid url.
 let urlBuilder = (BASE_URL, filter, API_KEY, page) => `${BASE_URL}${filter}?api_key=${API_KEY}&page=${page}`;
@@ -28,7 +29,7 @@ async function getMovies(BASE_URL, filter, API_KEY, page) {
     // Transforming data into json format.
     const DATA = await RESPONSE.json();
     // Getting number of total pages.
-    TOTAL_PAGES = DATA.total_pages;
+    totalPages = DATA.total_pages;
     // Looping through data results.
     DATA.results.forEach(element => {
         // Getting single poster url.
@@ -56,7 +57,7 @@ let changeMovies = () => {
 // Go to next page.
 nextButton.addEventListener("click", () => {
     // Check if we are not on last page.
-    if (page != TOTAL_PAGES) {
+    if (page != totalPages) {
         // Increase page value.
         page++;
         // Display new list of movies.
@@ -103,6 +104,17 @@ upcoming.addEventListener("click", () => {
     page = 1;
     // Display new list of movies.
     changeMovies();
+});
+
+// Sorting menu animation
+sortButton.addEventListener("click", () => {
+    if (isSortingVisible) {
+        header.style.height = "50px";
+        isSortingVisible = false;
+    } else {
+        header.style.height = "100px";
+        isSortingVisible = true;
+    }
 });
 
 // Loading data on window load.
