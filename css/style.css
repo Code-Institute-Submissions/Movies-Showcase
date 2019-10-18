@@ -16,6 +16,7 @@ html {
 
 body {
     background-color: var(--background-color);
+    position: relative;
 }
 
 /*-- Header --*/
@@ -123,6 +124,60 @@ body {
     justify-self: center;
     cursor: pointer;
     box-shadow: 0 1px 5px 0px var(--shadow-color);
+}
+
+#movieDetails {
+    display: grid;
+    grid-template-areas: 
+    "backdrop backdrop"
+    "poster title"
+    "poster releaseDate"
+    "poster rating"
+    "overviewCaption overviewCaption"
+    "overview overview";
+}
+
+#backdrop {
+     display: block;
+     grid-area: backdrop;
+     width: 100vw;
+     height: 200px;
+     background-color: red;
+}
+
+#poster {
+    display: block;
+    grid-area: poster;
+    width: 185px;
+    height: 278px;
+    background-color: blue;
+    background-size: cover;
+}
+
+#title {
+    display: block;
+    grid-area: title;
+    height: 50px;
+}
+
+#releaseDate {
+    display: block;
+    grid-area: releaseDate;
+}
+
+#rating {
+    display: block;
+    grid-area: rating;
+}
+
+#overviewCaption {
+    display: block;
+    grid-area: overviewCaption;
+}
+
+#overview {
+    display: block;
+    grid-area: overview;
 }
 
 /*-- Footer --*/
