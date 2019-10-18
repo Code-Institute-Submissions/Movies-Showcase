@@ -24,6 +24,23 @@
     justify-self: end;
 }
 
+/*-- Main Section --*/
+
+#moviesDisplay {
+    display: grid;
+    grid-auto-flow: row;
+    row-gap: 10px;
+    margin: 10px 0;
+}
+
+.Poster {
+    display: block;
+    width: 185px;
+    height: 278px;
+    background-size: cover;
+    justify-self: center;
+}
+
 /*-- Footer --*/
 #footer {
     display: grid;
