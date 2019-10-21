@@ -15,13 +15,13 @@ html {
 }
 
 body {
-    background-color: var(--background-color);
     position: relative;
 }
 
 #container {
     display: grid;
     min-height: 100vh;
+    background-color: var(--background-color);
 }
 
 /*-- Header --*/
@@ -29,7 +29,7 @@ body {
 #header {
     display: grid;
     grid-auto-flow: row;
-    width: 100vw;
+    width: 100%;
     height: 50px;
     background-color: var(--main-color);
     position: fixed;
@@ -200,7 +200,6 @@ svg circle {
     stroke: var(--secondary-color);
     stroke-width: 5px;
     stroke-dasharray: 314;
-    stroke-dashoffset: 10;
     stroke-linecap: round;
 }
 
@@ -232,7 +231,7 @@ svg circle {
 /*-- Footer --*/
 #footer {
     display: grid;
-    width: 100vw;
+    width: 100%;
     height: 50px;
     background-color: var(--main-color);
     align-self: end;
@@ -245,4 +244,55 @@ svg circle {
     margin-right: 20px;
     font-size: 10px;
     color: #fff;
+}
+
+/*-- Tablet View --*/
+@media only screen and (min-width: 768px) {
+
+    #movieDetails {
+        display: grid;
+        grid-template-rows: 400px 50px 25px 100px 50px 1fr;
+    }
+
+    #backdrop {
+        height: 400px;
+    }
+
+    #poster {
+        left: 100px;
+    }
+
+    #rate {
+        left: -100px;
+    }
+
+    #caption {
+        margin-left: 100px;
+    }
+
+    #overview {
+        margin: 0 100px;
+    }
+}
+
+/*-- Desktop View --*/
+@media only screen and (min-width: 1080px) {
+
+    #header {
+        width: 50%;
+        left: auto;
+    }
+
+    #moviesDisplay {
+        justify-self: center;
+    }
+
+    #container {
+        width: 50%;
+        margin: 0 auto;
+    }
+
+    #rate {
+        left: -150px;
+    }
 }

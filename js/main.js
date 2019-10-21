@@ -72,8 +72,8 @@ async function getMovies(filter, page) {
             let title = document.createElement("div");
             let releaseDate = document.createElement("div");
             let rating = document.createElement("div");
-            let svg = document.createElement("svg");
-            let circle = document.createElement("circle");
+            let svg = document. createElementNS("http://www.w3.org/2000/svg", "svg")
+            let circle = document. createElementNS("http://www.w3.org/2000/svg", "circle")
             let rate = document.createElement("div");
             let caption = document.createElement("div");
             let overview = document.createElement("div");
@@ -93,6 +93,7 @@ async function getMovies(filter, page) {
             circle.setAttribute("cx","90");
             circle.setAttribute("cy","70");
             circle.setAttribute("r","50");
+            circle.style.strokeDashoffset = 314 * (1 - (data.vote_average * 0.1));
             rate.id = "rate";
             rate.innerHTML = data.vote_average;
             caption.id = "caption";
