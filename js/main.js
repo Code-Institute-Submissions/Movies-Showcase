@@ -1,8 +1,9 @@
 // Constants.
 const BASE_URL = "https://api.themoviedb.org/3/movie/";
 const API_KEY = "75577ee1d6c6894588c8299ecbef6d44";
-const POSTER_BASE_URL = "https://image.tmdb.org/t/p/";
+const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
 const POSTER_SIZE = "w185/";
+const BACKDROP_SIZE = "w780/";
 
 // All document elements we will be interacting with.
 const movieDisplay = document.getElementById("moviesDisplay");
@@ -24,8 +25,8 @@ let isSortingVisible = false;
 let movieUrlBuilder = (BASE_URL, filter, API_KEY) => `${BASE_URL}${filter}?api_key=${API_KEY}`;
 // String building function for movie list url.
 let moviesUrlBuilder = (BASE_URL, filter, API_KEY, page) => `${BASE_URL}${filter}?api_key=${API_KEY}&page=${page}`;
-// String building function for poster url.
-let posterUrlBuilder = (POSTER_BASE_URL, POSTER_SIZE, poster_path) => `${POSTER_BASE_URL}${POSTER_SIZE}${poster_path}`;
+// String building function for image url.
+let imageUrlBuilder = (IMAGE_BASE_URL, IMAGE_SIZE, image_path) => `${IMAGE_BASE_URL}${IMAGE_SIZE}${image_path}`;
 
 async function getMovie(id) {
     console.log(id);
@@ -42,7 +43,9 @@ async function getMovies(filter, page) {
     // Looping through data results.
     DATA.results.forEach(element => {
         // Getting single poster url.
-        let posterUrl = posterUrlBuilder(POSTER_BASE_URL, POSTER_SIZE, element.poster_path);
+        let posterUrl = imageUrlBuilder(IMAGE_BASE_URL, POSTER_SIZE, element.poster_path);
+        // Getting single backdrop url.
+        let backdropUrl = imageUrlBuilder(IMAGE_BASE_URL, BACKDROP_SIZE, element.backdrop_path);
         // Creating poster element.
         let poster = document.createElement("div");
         // Styling our poster.
@@ -50,54 +53,77 @@ async function getMovies(filter, page) {
         poster.style.backgroundImage = `url("${posterUrl}")`;
         // Appending poster to our display section.
         movieDisplay.appendChild(poster);
-
-
+        // Showing movie details.
         poster.addEventListener("click", async function getMovie() {
+            // Making navigation bar dissapear.
+            header.style.height = "0";
+            // Clear screen.
             movieDisplay.innerHTML = "";
+            // Fetching data from given url.
             const response = await fetch(movieUrlBuilder(BASE_URL, element.id, API_KEY));
-
+            // Transforming data into json format.
             const data = await response.json();
-
+            //Creatign elements to populate movie detail view.
             let movieDetails = document.createElement("div");
+            let backButton = document.createElement("div");
+            let back = document.createElement("i");
             let backdrop = document.createElement("div");
             let moviePoster = document.createElement("div");
             let title = document.createElement("div");
             let releaseDate = document.createElement("div");
             let rating = document.createElement("div");
-            let overviewCaption = document.createElement("div");
+            let svg = document.createElement("svg");
+            let circle = document.createElement("circle");
+            let rate = document.createElement("div");
+            let caption = document.createElement("div");
             let overview = document.createElement("div");
-
+            //Style movie detail view.
             movieDetails.id = "movieDetails";
+            backButton.id = "backButton";
+            back.className = "fas fa-chevron-left";
             backdrop.id = "backdrop";
+            backdrop.style.backgroundImage = `url("${backdropUrl}")`;
             moviePoster.id = "poster";
-            title.id = "title";
-            releaseDate.id = "releaseDate";
-            rating.id = "rating";
-            overviewCaption.id = "overviewCaption";
-            overview.id = "overview";
-
             moviePoster.style.backgroundImage = `url("${posterUrl}")`;
+            title.id = "title";
             title.innerHTML = data.title;
+            releaseDate.id = "releaseDate";
             releaseDate.innerHTML = data.release_date;
-            rating.innerHTML = data.vote_average;
-            overviewCaption.innerHTML = "Overview";
+            rating.id = "rating";
+            circle.setAttribute("cx","90");
+            circle.setAttribute("cy","70");
+            circle.setAttribute("r","50");
+            rate.id = "rate";
+            rate.innerHTML = data.vote_average;
+            caption.id = "caption";
+            caption.innerHTML = "Overview";
+            overview.id = "overview";
             overview.innerHTML = data.overview;
-
+            //Populating movie detail view.
+            backButton.appendChild(back);
+            movieDetails.appendChild(backButton);
             movieDetails.appendChild(backdrop);
+            rating.appendChild(svg);
+            rating.appendChild(rate);
+            svg.appendChild(circle);
             movieDetails.appendChild(moviePoster);
             movieDetails.appendChild(title);
             movieDetails.appendChild(releaseDate);
             movieDetails.appendChild(rating);
-            movieDetails.appendChild(overviewCaption);
+            movieDetails.appendChild(caption);
             movieDetails.appendChild(overview);
-
             movieDisplay.appendChild(movieDetails);
+            // Making back button work.
+            backButton.addEventListener("click", () => changeMovies());
         });
     });
 }
 
 // Display new list of movies.
 let changeMovies = () => {
+    // Making navigation bar appear.
+    header.style.height = "50px";
+    isSortingVisible = false;
     // Clearing movie display section from previous page data.
     movieDisplay.innerHTML = "";
     // Fetching new data with updated page value.
