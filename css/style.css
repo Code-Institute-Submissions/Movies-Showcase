@@ -195,6 +195,11 @@ body {
     grid-column: 2;
 }
 
+svg {
+    width: 100%;
+    height: 150px;
+}
+
 svg circle {
     fill: none;
     stroke: var(--secondary-color);
@@ -207,7 +212,7 @@ svg circle {
     display: block;
     position: relative;
     justify-self: center;
-    top: -15px;
+    top: -95px;
     font-size: 30px;
 }
 
