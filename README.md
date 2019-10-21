@@ -8,7 +8,7 @@ With the help of www.themoviedb.org API I have made a movies showcase.
 
 ## Demo
 
-Live demonstration of a website can be found by the folowing link: https://yiaoma.github.io/Interactive-Frontend-Development-Project/.
+Live demonstration of a website can be found by the folowing link: https://yiaoma.github.io/Movies-Showcase/.
 
 ## UX
 
